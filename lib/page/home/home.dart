@@ -9,8 +9,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool displayMobileLayout = MediaQuery.of(context).size.width < 600;
-
     return Row(
       children: [
         Expanded(
@@ -19,13 +17,14 @@ class HomePage extends StatelessWidget {
               title: const Text("Todo List"),
               elevation: 0,
               centerTitle: true,
-              automaticallyImplyLeading: displayMobileLayout,
             ),
             floatingActionButton: ResponsiveVisibility(
               visible: false,
               visibleWhen: const [Condition.smallerThan(name: DESKTOP)],
               child: FloatingActionButton(
-                onPressed: () {Navigator.of(context).pushNamed('/new_todo');},
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/new_todo');
+                },
                 child: (const Icon(Icons.add)),
               ),
             ),
@@ -33,6 +32,9 @@ class HomePage extends StatelessWidget {
               builder: (context, state) {
                 if (state is HomeLoadedState) {
                   return renderTodos(context);
+                }
+                if (state is EmptyTodosState) {
+                  return const Center(child: Text("Empty Todo List"));
                 }
                 return Container();
               },

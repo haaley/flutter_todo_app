@@ -19,7 +19,7 @@ class HomeLoadedState extends HomeState {
 
 }
 
-class EmptyStodosState extends HomeState {
+class EmptyTodosState extends HomeState {
   @override
   List<Object?> get props => [];
 

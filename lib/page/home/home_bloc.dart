@@ -22,6 +22,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     on<LoadTodosEvent>((event, emit) async {
       final todos = _service.getTodos();
+      if(todos.isEmpty){
+        emit(EmptyTodosState());
+        return;
+      }
       emit(HomeLoadedState(todos));
     });
 
