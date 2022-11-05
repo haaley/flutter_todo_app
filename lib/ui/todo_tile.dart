@@ -37,11 +37,11 @@ class TodoTile extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.only(bottom: 8.0),
             ),
-            Text(todo.descritpion),
+            Text(todo.description),
             const Padding(
               padding: EdgeInsets.only(bottom: 8.0),
             ),
-            Text(DateFormat('yyyy-MM-dd hh:mm:ss').format(todo.dueTime)),
+            Text(DateFormat('yyyy-MM-dd hh:mm').format(todo.dueTime)),
           ],
         ),
       ),

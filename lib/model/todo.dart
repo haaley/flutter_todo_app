@@ -7,9 +7,9 @@ class Todo {
   @HiveField(0)
   final String title;
   @HiveField(1)
-  final String descritpion;
+  final String description;
   @HiveField(2)
   final DateTime dueTime;
 
-  Todo(this.title, this.descritpion, this.dueTime);
+  Todo(this.title, this.description, this.dueTime);
 }

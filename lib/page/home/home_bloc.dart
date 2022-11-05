@@ -34,7 +34,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       _notificationService.showScheduledNotification(
           id: 1,
           title: event.todo.title,
-          body: event.todo.descritpion,
+          body: event.todo.description,
           dateTime: event.todo.dueTime);
       add(NewTodoCreatedEvent());
     });
