@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_todo_app/page/home/home.dart';
 import 'package:flutter_todo_app/page/home/home_bloc.dart';
+import 'package:flutter_todo_app/page/home/new_todo.dart';
+import 'package:flutter_todo_app/service/notification_service.dart';
 import 'package:flutter_todo_app/service/todo_service.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:responsive_framework/responsive_framework.dart';
+
 
 void main() async {
   await Hive.initFlutter();
@@ -17,15 +20,37 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(create: (context) => TodoService(),
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(create: (context) => TodoService(),
+        ),
+        RepositoryProvider(
+          create: (context) => NotificationService(),
+        ),
+      ],
       child: BlocProvider(
-        create: (context) => HomeBloc(RepositoryProvider.of<TodoService>(context))..add(BootstrapAppEvent()),
+        create: (context) =>
+        HomeBloc(RepositoryProvider.of<TodoService>(context), RepositoryProvider.of<NotificationService>(context))
+          ..add(BootstrapAppEvent()),
         child: MaterialApp(
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
-          home: const HomePage(),
+          builder: (context, child) => ResponsiveWrapper.builder(
+              child,
+              minWidth: 320,
+              defaultScale: true,
+              breakpoints: [
+                const ResponsiveBreakpoint.resize(600, name: MOBILE),
+                const ResponsiveBreakpoint.autoScale(800, name: TABLET),
+                const ResponsiveBreakpoint.resize(1280, name: DESKTOP),
+              ],
+              background: Container(color: const Color(0xFFF5F5F5))),
+
+          initialRoute: "/",
+          routes: {
+            // When navigating to the "/" route, build the FirstScreen widget.
+            '/': (context) => const HomePage(),
+            // When navigating to the "/second" route, build the SecondScreen widget.
+            '/new_todo': (context) => const NewTodo(),
+          },
         ),
       ),
     );

@@ -9,7 +9,6 @@ class TodoService {
   Future<void> init() async {
     Hive.registerAdapter(TodoAdapter());
     _todos = await Hive.openBox<Todo>('todos');
-    _todos.clear();
   }
 
   List<Todo> getTodos()  {
